@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <h1>To-Do List</h1>
+            <form id="todo-form" method="POST">
+                {% csrf_token %}
+                <input type="text" id="todo-input" name="todo-input" placeholder="Add a new task">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <div class="list-section">
+            <ul id="todo-list">
+                {% for todo in todos %}
+                    <li>
+                        {{ todo.text }}
+                        <form action="{% url 'delete_todo' todo.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                {% empty %}
+                    <li>No tasks yet!</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- <script src="{% static 'js/app.js' %}"></script> -->
+</body>
+</html>
+
